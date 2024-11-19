@@ -50,8 +50,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
                 onPressed: (departureStation != null && arrivalStation != null)
-                    ? () {
-                        // 좌석 선택 페이지로 이동
+                    ? () {// 좌석 선택 페이지로 이동
                       }
                     : null,
                 child: const Text(
@@ -122,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                isDeparture ? '출발역' : '도착역',
+                isDeparture ? '출발역' : '도착역', //true이면 출발역, false이면 도착역
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
