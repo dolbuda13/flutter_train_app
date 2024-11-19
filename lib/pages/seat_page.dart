@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SeatPage extends StatefulWidget {
@@ -17,8 +18,50 @@ class SeatPage extends StatefulWidget {
 class _SeatPageState extends State<SeatPage> {
   List<List<bool>> selectedSeats = List.generate(
     20,
-    (_) => List.generate(4, (_) => false), // 20 rows, 4 columns of seats
+    (_) => List.generate(4, (_) => false),
   );
+
+  void _showConfirmationDialog() {
+    // 선택된 좌석 번호를 가져오기
+    List<String> selectedSeatNumbers = [];
+    for (int row = 0; row < selectedSeats.length; row++) {
+      for (int col = 0; col < selectedSeats[row].length; col++) {
+        if (selectedSeats[row][col]) {
+          // 좌석 번호는 A, B, C, D를 사용
+          String seatLabel = String.fromCharCode(65 + col); // A, B, C, D
+          selectedSeatNumbers.add('${row + 1}$seatLabel');
+        }
+      }
+    }
+
+    // 다이얼로그 출력
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('예매하시겠습니까?'),
+        content: Text(
+          selectedSeatNumbers.isNotEmpty
+              ? '좌석 번호: ${selectedSeatNumbers.join(', ')}'
+              : '선택된 좌석이 없습니다.',
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text('취소'),
+            onPressed: () {
+              Navigator.pop(context); // Dialog 닫기
+            },
+          ),
+          CupertinoDialogAction(
+            child: const Text('확인'),
+            onPressed: () {
+              Navigator.pop(context); // Dialog 닫기
+              Navigator.pop(context); // HomePage로 돌아가기
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +77,6 @@ class _SeatPageState extends State<SeatPage> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Column(
           children: [
-            // 역 이름 섹션
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -44,8 +86,6 @@ class _SeatPageState extends State<SeatPage> {
               ],
             ),
             const SizedBox(height: 20),
-
-            // 좌석 상태 설명
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -59,8 +99,6 @@ class _SeatPageState extends State<SeatPage> {
               ],
             ),
             const SizedBox(height: 20),
-
-            //좌석 레이블(A, B, C, D)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [
@@ -71,8 +109,6 @@ class _SeatPageState extends State<SeatPage> {
               ],
             ),
             const SizedBox(height: 10),
-
-            //좌석 스크롤
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -82,11 +118,10 @@ class _SeatPageState extends State<SeatPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // 행 번호
                           Container(
                             width: 50,
                             height: 50,
-                            alignment: Alignment.center, // 행 번호를 가로세로 정중앙으로 정렬
+                            alignment: Alignment.center,
                             child: Text(
                               '${rowIndex + 1}',
                               style: const TextStyle(
@@ -95,7 +130,6 @@ class _SeatPageState extends State<SeatPage> {
                               ),
                             ),
                           ),
-                          // 좌석
                           for (int colIndex = 0; colIndex < 4; colIndex++)
                             _buildSeatWidget(rowIndex, colIndex),
                         ],
@@ -105,8 +139,6 @@ class _SeatPageState extends State<SeatPage> {
                 ),
               ),
             ),
-
-            // 예매하기 버튼
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -117,9 +149,7 @@ class _SeatPageState extends State<SeatPage> {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
-                onPressed: () {
-                  // 예매하기
-                },
+                onPressed: _showConfirmationDialog,
                 child: const Text(
                   '예매 하기',
                   style: TextStyle(
@@ -136,7 +166,6 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  // 역 이름 위젯
   Widget _buildStationText(String station) {
     return Text(
       station,
@@ -149,7 +178,6 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  // 좌석 상태 박스
   Widget _buildSeatStatusBox(bool isSelected) {
     return Container(
       width: 24,
@@ -161,12 +189,12 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  // 좌석 위젯
   Widget _buildSeatWidget(int rowIndex, int colIndex) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedSeats[rowIndex][colIndex] = !selectedSeats[rowIndex][colIndex];
+          selectedSeats[rowIndex][colIndex] =
+              !selectedSeats[rowIndex][colIndex];
         });
       },
       child: Container(
