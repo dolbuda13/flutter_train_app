@@ -1,16 +1,22 @@
-# flutter_train_app
+기차 예매 앱
+======================
+1. HomePage
+------------------
+출발역, 도착역 선택하는 버튼    
+좌석 선택 버튼      
 
-A new Flutter project.
+2. StationListPage
+----------------------
+HomePage에서 출발역, 도착역 선택 버튼을 눌렀을 때 나오는 페이지    
+기차역 리스트를 보여줌   
+뒤로가기 버튼    
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. SeatPage
+--------------------
+HomePage에서 좌석 선택 버튼을 눌렀을 때 나오는 페이지   
+좌석 선택하는 화면   
+좌석을 눌렀을때 좌석 박스가 회색에서 보라색으로 바뀜   
+예매하기 버튼   
+예매하기 버튼을 터치 시 취소, 확인 선택
+취소 시 dialog 제거
+확인 시 HomePage로 이동
